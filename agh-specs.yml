@@ -1,0 +1,162 @@
+# deploy stack and configure admin account via browser at <http://<host_ip>:3000>.
+# once admin account is done, stop adguard and replace the relevant settings below in /opt/adguardhome/conf/AdGuardHome.conf and then restart the container.
+
+user_rules:
+  - /^ad([sxv]?[0-9]*|system)[_.-]([^.[:space:]]+\\.){1,}|[_.-]ad([sxv]?[0-9]*|system)[_.-]/
+  - /^(.+[_.-])?adse?rv(er?|ice)?s?[0-9]*[_.-]/
+  - /^(.+[_.-])?telemetry[_.-]/
+  - /^adim(age|g)s?[0-9]*[_.-]/
+  - /^adtrack(er|ing)?[0-9]*[_.-]/
+  - /^advert(s|is(ing|ements?))?[0-9]*[_.-]/
+  - /^aff(iliat(es?|ion))?[_.-]/
+  - /^analytics?[_.-]/
+  - /^banners?[_.-]/
+  - /^beacons?[0-9]*[_.-]/
+  - /^count(ers?)?[0-9]*[_.-]/
+  - /^mads\\./
+  - /^pixels?[-.]/
+  - /^stat(s|istics)?[0-9]*[_.-]/
+  - /^(.+[_.-])sophosxl?.net/
+  - '''||zip^'''
+  - '''||mov^'''
+
+statistics:
+  interval: 2160h
+  enabled: true
+
+querylog:
+  interval: 168h
+  size_memory: 1000
+  enabled: true
+  file_enabled: true
+
+dns:
+  upstream_dns:
+    - https://dns.cloudflare.com/dns-query
+    - https://dns.google/dns-query
+
+filtering:
+  safe_search:
+    enabled: true
+    bing: true
+    duckduckgo: true
+    google: true
+    pixabay: true
+    yandex: true
+    youtube: true
+  blocking_mode: default
+  parental_block_host: family-block.dns.adguard.com
+  safebrowsing_block_host: standard-block.dns.adguard.com
+  cache_time: 30
+  filters_update_interval: 24
+  blocked_response_ttl: 10
+  filtering_enabled: true
+  parental_enabled: false
+  safebrowsing_enabled: true
+  protection_enabled: true
+
+filters:
+  - enabled: true
+    url: https://adguardteam.github.io/AdGuardSDNSFilter/Filters/filter.txt
+    name: AdGuard DNS filter
+    id: 1
+  - enabled: true
+    url: https://adaway.org/hosts.txt
+    name: AdAway Default Blocklist
+    id: 2
+  - enabled: true
+    url: https://www.malwaredomainlist.com/hostslist/hosts.txt
+    name: MalwareDomainList.com Hosts List
+    id: 3
+  - enabled: true
+    url: https://someonewhocares.org/hosts/zero/hosts
+    name: Dan Pollock's List
+    id: 4
+  - enabled: true
+    url: https://raw.githubusercontent.com/DandelionSprout/adfilt/master/GameConsoleAdblockList.txt
+    name: Game Console Adblock List
+    id: 5
+  - enabled: true
+    url: https://pgl.yoyo.org/adservers/serverlist.php?hostformat=adblockplus&showintro=1&mimetype=plaintext
+    name: Peter Lowe's List
+    id: 6
+  - enabled: true
+    url: https://raw.githubusercontent.com/crazy-max/WindowsSpyBlocker/master/data/hosts/spy.txt
+    name: WindowsSpyBlocker - Hosts spy rules
+    id: 7
+  - enabled: true
+    url: https://raw.githubusercontent.com/Perflyst/PiHoleBlocklist/master/SmartTV-AGH.txt
+    name: Perflyst and Dandelion Sprout's Smart-TV Blocklist
+    id: 8
+  - enabled: true
+    url: https://raw.githubusercontent.com/hoshsadiq/adblock-nocoin-list/master/hosts.txt
+    name: NoCoin Filter List
+    id: 9
+  - enabled: true
+    url: https://raw.githubusercontent.com/durablenapkin/scamblocklist/master/adguard.txt
+    name: Scam Blocklist by DurableNapkin
+    id: 10
+  - enabled: true
+    url: https://raw.githubusercontent.com/Spam404/lists/master/main-blacklist.txt
+    name: Spam404
+    id: 11
+  - enabled: true
+    url: https://raw.githubusercontent.com/mitchellkrogza/The-Big-List-of-Hacked-Malware-Web-Sites/master/hosts
+    name: The Big List of Hacked Malware Web Sites
+    id: 12
+  - enabled: true
+    url: https://paulgb.github.io/BarbBlock/blacklists/hosts-file.txt
+    name: BarbBlock
+    id: 13
+  - enabled: true
+    url: https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts
+    name: StevenBlack Hosts
+    id: 14
+  - enabled: true
+    url: https://www.github.developerdan.com/hosts/lists/ads-and-tracking-extended.txt
+    name: 'DeveloperDan: Ads & Tracking Extended'
+    id: 15
+  - enabled: true
+    url: https://www.github.developerdan.com/hosts/lists/amp-hosts-extended.txt
+    name: 'DeveloperDan: Amp Hosts Extended'
+    id: 16
+  - enabled: true
+    url: https://www.github.developerdan.com/hosts/lists/hate-and-junk-extended.txt
+    name: 'DeveloperDan: Hate & Junk Extended'
+    id: 17
+  - enabled: false
+    url: https://www.github.developerdan.com/hosts/lists/facebook-extended.txt
+    name: 'DeveloperDan: Facebook Extended'
+    id: 18
+  - enabled: true
+    url: https://raw.githubusercontent.com/nextdns/native-tracking-domains/main/domains/alexa
+    name: 'NextDNS: Alexa'
+    id: 19
+  - enabled: true
+    url: https://raw.githubusercontent.com/nextdns/native-tracking-domains/main/domains/apple
+    name: 'NextDNS: Apple'
+    id: 20
+  - enabled: true
+    url: https://raw.githubusercontent.com/nextdns/native-tracking-domains/main/domains/huawei
+    name: 'NextDNS: Huawei'
+    id: 21
+  - enabled: true
+    url: https://raw.githubusercontent.com/nextdns/native-tracking-domains/main/domains/roku
+    name: 'NextDNS: Roku'
+    id: 22
+  - enabled: true
+    url: https://raw.githubusercontent.com/nextdns/native-tracking-domains/main/domains/samsung
+    name: 'NextDNS: Samsung'
+    id: 23
+  - enabled: true
+    url: https://raw.githubusercontent.com/nextdns/native-tracking-domains/main/domains/sonos
+    name: 'NextDNS: Sonos'
+    id: 24
+  - enabled: true
+    url: https://raw.githubusercontent.com/nextdns/native-tracking-domains/main/domains/windows
+    name: 'NextDNS: Windows'
+    id: 25
+  - enabled: true
+    url: https://raw.githubusercontent.com/nextdns/native-tracking-domains/main/domains/xiaomi
+    name: 'NextDNS: Xiaomi'
+    id: 26
