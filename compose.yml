@@ -4,7 +4,7 @@ services:
   adguard:
     container_name: adguard
     hostname: adguard
-    image: adguard/adguardhome:v0.107.49
+    image: adguard/adguardhome:v0.107.50
     restart: always
     ports:
       - 53:53/tcp
