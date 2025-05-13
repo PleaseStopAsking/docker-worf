@@ -18,17 +18,16 @@ services:
   adguard-exporter:
     container_name: adguard-exporter
     hostname: adguard-exporter
-    image: ebrianne/adguard-exporter:v1.14
+    image: ghcr.io/henrywhitaker3/adguard-exporter:v1.2.0
     restart: always
     ports:
-      - 9617:9617
+      - 9618:9618
     environment:
-      - adguard_protocol=http
-      - adguard_hostname=adguard
-      - adguard_username=${adguard_username}
-      - adguard_password=${adguard_password}
-      - interval=10s
-      - log_limit=10000
+      - ADGUARD_SERVERS=http://adguard
+      - ADGUARD_USERNAMES=${adguard_username}
+      - ADGUARD_PASSWORDS=${adguard_password}
+      - INTERVAL=30s
+      - DEBUG=false
 
   cadvisor:
     container_name: cadvisor
