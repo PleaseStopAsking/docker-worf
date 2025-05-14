@@ -37,6 +37,8 @@ services:
       - '-port=8098'
     ports:
       - 8098:8098
+    environment:
+      - CADVISOR_HEALTHCHECK_URL=http://localhost:8098/healthz
     restart: unless-stopped
     volumes:
       - /:/rootfs:ro
