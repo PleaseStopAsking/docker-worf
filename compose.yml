@@ -14,6 +14,11 @@ services:
     volumes:
       - adguard:/opt/adguardhome/work
       - adguard:/opt/adguardhome/conf
+    labels:
+      tsdproxy.enable: "true"
+      tsdproxy.ephemeral: "false"
+      tsdproxy.authkey: ${tailscale_auth_key}
+      tsdproxy.container_port: 80
 
   adguard-exporter:
     container_name: adguard-exporter
@@ -54,6 +59,22 @@ services:
       - 9100:9100
     restart: unless-stopped
 
+  tsdproxy:
+    image: ghcr.io/almeidapaulopt/tsdproxy:1.4.7
+    hostname: tsdproxy
+    container_name: tsdproxy
+    restart: unless-stopped
+    volumes:
+      - tsdproxy_config:/config
+      - tsdproxy_data:/data
+      - /var/run/docker.sock:/var/run/docker.sock
+
 volumes:
   adguard:
     name: adguard
+
+  tsdproxy_config:
+    name: tsdproxy_config
+
+  tsdproxy_data:
+    name: tsdproxy_data
