@@ -1,38 +1,53 @@
 ---
 
 services:
-  adguard:
-    container_name: adguard
-    hostname: adguard
-    image: adguard/adguardhome:v0.107.62
-    restart: always
+  #adguard:
+  #  container_name: adguard
+  #  hostname: adguard
+  #  image: adguard/adguardhome:v0.107.62
+  #  restart: always
+  #  ports:
+  #    - 53:53/tcp
+  #    - 53:53/udp
+  #    - 80:80/tcp
+  #    - 3000:3000/tcp
+  #  volumes:
+  #    - adguard:/opt/adguardhome/work
+  #    - adguard:/opt/adguardhome/conf
+  #  labels:
+  #    tsdproxy.enable: "true"
+  #    tsdproxy.ephemeral: "false"
+  #    tsdproxy.authkey: ${tailscale_auth_key}
+  #   tsdproxy.container_port: 80
+
+  #adguard-exporter:
+  #  container_name: adguard-exporter
+  #  hostname: adguard-exporter
+  #  image: ghcr.io/henrywhitaker3/adguard-exporter:v1.2.0
+  #  restart: always
+  #  ports:
+  #    - 9618:9618
+  #  environment:
+  #    - ADGUARD_SERVERS=http://adguard
+  #    - ADGUARD_USERNAMES=${adguard_username}
+  #    - ADGUARD_PASSWORDS=${adguard_password}
+  #    - INTERVAL=30s
+  #    - DEBUG=false
+
+  blocky:
+    image: ghcr.io/0xerr0r/blocky:v0.26.2
+    container_name: blocky
+    hostname: blocky
+    restart: unless-stopped
     ports:
       - 53:53/tcp
       - 53:53/udp
-      - 80:80/tcp
-      - 3000:3000/tcp
-    volumes:
-      - adguard:/opt/adguardhome/work
-      - adguard:/opt/adguardhome/conf
-    labels:
-      tsdproxy.enable: "true"
-      tsdproxy.ephemeral: "false"
-      tsdproxy.authkey: ${tailscale_auth_key}
-      tsdproxy.container_port: 80
-
-  adguard-exporter:
-    container_name: adguard-exporter
-    hostname: adguard-exporter
-    image: ghcr.io/henrywhitaker3/adguard-exporter:v1.2.0
-    restart: always
-    ports:
-      - 9618:9618
+      - 4000:4000/tcp
     environment:
-      - ADGUARD_SERVERS=http://adguard
-      - ADGUARD_USERNAMES=${adguard_username}
-      - ADGUARD_PASSWORDS=${adguard_password}
-      - INTERVAL=30s
-      - DEBUG=false
+      - TZ=${timezone}
+    volumes:
+      - /etc/localtime:/etc/localtime:ro # synchronize log timestamp with host
+      - ./docker-configs/blocky/config.yaml:/app/config.yml:ro
 
   cadvisor:
     container_name: cadvisor
