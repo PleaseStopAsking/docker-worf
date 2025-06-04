@@ -1,0 +1,29 @@
+discovery.docker "blocky_scrape" {
+  host = "unix:///var/run/docker.sock"
+  refresh_interval = "5s"
+}
+
+discovery.relabel "blocky_scrape" {
+  targets = []
+
+  rule {
+    source_labels = ["__meta_docker_container_name"]
+    regex = "/(blocky)"
+    target_label = "service_name"
+    action = "keep"
+  }
+}
+
+loki.source.docker "blocky_logs" {
+  host = "unix:///var/run/docker.sock"
+  targets = discovery.docker.blocky_scrape.targets
+  forward_to = [loki.write.loki_receiver.receiver]
+  relabel_rules = discovery.relabel.blocky_scrape.rules
+  refresh_interval = "5s"
+}
+
+loki.write "loki_receiver" {
+  endpoint {
+    url = "https://loki.tail419b6.ts.net/loki/api/v1/push"
+  }
+}

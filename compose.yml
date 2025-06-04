@@ -34,6 +34,15 @@ services:
   #    - INTERVAL=30s
   #    - DEBUG=false
 
+  alloy:
+    image: grafana/alloy:v1.9.0
+    container_name: alloy
+    hostname: alloy
+    volumes:
+      - ./docker-configs/alloy/config.yaml:/etc/alloy/config.alloy:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    command: run --server.http.listen-addr=0.0.0.0:12345 /etc/alloy/config.alloy
+
   blocky:
     image: ghcr.io/0xerr0r/blocky:v0.26.2
     container_name: blocky
