@@ -6,8 +6,8 @@ ports:
   http: 4000
 
 log:
-  level: info
-  format: text
+  level: warn
+  format: json
   timestamp: true
   privacy: false
 
