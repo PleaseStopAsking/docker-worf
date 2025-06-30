@@ -35,7 +35,7 @@ services:
   #    - DEBUG=false
 
   alloy:
-    image: grafana/alloy:v1.9.0
+    image: grafana/alloy:v1.9.2
     container_name: alloy
     hostname: alloy
     volumes:
