@@ -23,7 +23,7 @@ services:
   adguard-exporter:
     container_name: adguard-exporter
     hostname: adguard-exporter
-    image: ghcr.io/henrywhitaker3/adguard-exporter:v1.2.0
+    image: ghcr.io/henrywhitaker3/adguard-exporter:v1.2.1
     restart: always
     ports:
       - 9618:9618
